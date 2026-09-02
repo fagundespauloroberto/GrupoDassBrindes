@@ -1,0 +1,167 @@
+unit uFrmCadastro;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls,
+  uFuncionarioModel, uFuncionarioController, uDMConnection;
+
+type
+  TFrmCadastro = class(TForm)
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label3: TLabel;
+    EdtNome: TEdit;
+    ID: TLabel;
+    EdtID: TEdit;
+    EdtEmail: TEdit;
+    Label4: TLabel;
+    Panel2: TPanel;
+    BtnSalvar: TButton;
+    BtnCancelar: TButton;
+    Label5: TLabel;
+    Label6: TLabel;
+    EdtTamanhoCalcado: TEdit;
+    CbTamanhoCamiseta: TComboBox;
+    EdtCPF: TEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure BtnSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+    FController: TFuncionarioController;
+    function ValidarCampos: Boolean;
+  public
+    { Public declarations }
+    procedure CarregarDadosParaEdicao(AFuncionarioID: Integer);
+    procedure LimparCampos;
+  end;
+
+var
+  FrmCadastro: TFrmCadastro;
+
+implementation
+
+uses uValidacoes;
+
+{$R *.dfm}
+
+procedure TFrmCadastro.BtnSalvarClick(Sender: TObject);
+var
+  Funcionario: TFuncionario;
+  Erro: string;
+begin
+  if not ValidarCampos then
+    Exit;
+
+  Funcionario := TFuncionario.Create;
+  try
+    Funcionario.ID := StrToIntDef(EdtID.Text, 0);
+    Funcionario.CPF := Trim(EdtCPF.Text);
+    Funcionario.Nome := Trim(EdtNome.Text);
+    Funcionario.Email := Trim(EdtEmail.Text);
+    Funcionario.TamanhoCamiseta := CbTamanhoCamiseta.Text;
+    Funcionario.TamanhoCalcado := StrToInt(EdtTamanhoCalcado.Text);
+
+    if FController.Salvar(Funcionario, Erro) then
+    begin
+      ShowMessage('Funcionário salvo com sucesso!');
+      ModalResult := mrOk;
+    end
+    else
+    begin
+      MessageDlg('Erro ao salvar no banco de dados: ' + Erro, mtError, [mbOK], 0);
+    end;
+  finally
+    Funcionario.Free;
+  end;
+end;
+
+procedure TFrmCadastro.CarregarDadosParaEdicao(AFuncionarioID: Integer);
+begin
+  if DMConnection.cdsFuncionario.Locate('ID', AFuncionarioID, []) then
+  begin
+    EdtID.Text := DMConnection.cdsFuncionario.FieldByName('ID').AsString;
+    EdtCPF.Text := DMConnection.cdsFuncionario.FieldByName('CPF').AsString;
+    EdtNome.Text := DMConnection.cdsFuncionario.FieldByName('NOME').AsString;
+    EdtEmail.Text := DMConnection.cdsFuncionario.FieldByName('EMAIL').AsString;
+    CbTamanhoCamiseta.ItemIndex := CbTamanhoCamiseta.Items.IndexOf(
+      DMConnection.cdsFuncionario.FieldByName('TAMANHO_CAMISETA').AsString
+    );
+    EdtTamanhoCalcado.Text := DMConnection.cdsFuncionario.FieldByName('TAMANHO_CALCADO').AsString;
+  end;
+end;
+
+procedure TFrmCadastro.FormCreate(Sender: TObject);
+begin
+  FController := TFuncionarioController.Create;
+  LimparCampos;
+end;
+
+procedure TFrmCadastro.FormDestroy(Sender: TObject);
+begin
+  FController.Free;
+end;
+
+procedure TFrmCadastro.LimparCampos;
+begin
+  EdtID.Text := '0';
+  EdtCPF.Clear;
+  EdtNome.Clear;
+  EdtEmail.Clear;
+  CbTamanhoCamiseta.ItemIndex := -1;
+  EdtTamanhoCalcado.Clear;
+end;
+
+function TFrmCadastro.ValidarCampos: Boolean;
+var
+  Calcado: Integer;
+begin
+  Result := False;
+
+// Validação Completa de CPF (Com cálculo de Digitos Verificadores)
+  if not ValidarCPF(EdtCPF.Text) then
+  begin
+    MessageDlg('O CPF informado é inválido. Por favor, verifique os dígitos digitados.', mtWarning, [mbOK], 0);
+    EdtCPF.SetFocus;
+    Exit;
+  end;
+
+  //Validação de Nome
+  if Trim(EdtNome.Text) = '' then
+  begin
+    MessageDlg('O campo Nome é obrigatório.', mtWarning, [mbOK], 0);
+    EdtNome.SetFocus;
+    Exit;
+  end;
+
+  //Validação de E-mail
+  if (Trim(EdtEmail.Text) = '') or (Pos('@', EdtEmail.Text) = 0) or (Pos('.', EdtEmail.Text) = 0) then
+  begin
+    MessageDlg('Informe um e-mail válido.', mtWarning, [mbOK], 0);
+    EdtEmail.SetFocus;
+    Exit;
+  end;
+
+  //Validação de Tamanho de Camiseta
+  if CbTamanhoCamiseta.ItemIndex = -1 then
+  begin
+    MessageDlg('Selecione o tamanho da camiseta.', mtWarning, [mbOK], 0);
+    CbTamanhoCamiseta.SetFocus;
+    Exit;
+  end;
+
+  //Validação de Tamanho de Calçado
+  Calcado := StrToIntDef(EdtTamanhoCalcado.Text, 0);
+  if (Calcado < 34) or (Calcado > 48) then
+  begin
+    MessageDlg('Informe um tamanho de calçado válido entre 34 e 48.', mtWarning, [mbOK], 0);
+    EdtTamanhoCalcado.SetFocus;
+    Exit;
+  end;
+
+  Result := True;
+end;
+
+end.

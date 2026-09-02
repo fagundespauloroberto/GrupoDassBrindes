@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2026/08/31 22:24:02.725.pas,C:\Users\Fagundes\Documents\RAD Studio\Projects\Unit3.pas=C:\Users\Fagundes\Documents\RAD Studio\GrupoDassBrindes\uFrmPrincipal.pas</Transaction>
+    <Transaction>2026/08/31 22:24:02.725.dfm,C:\Users\Fagundes\Documents\RAD Studio\Projects\Unit3.dfm=C:\Users\Fagundes\Documents\RAD Studio\GrupoDassBrindes\uFrmPrincipal.dfm</Transaction>
+    <Transaction>2026/08/31 22:24:20.090.dproj,C:\Users\Fagundes\Documents\RAD Studio\Projects\Project2.dproj=C:\Users\Fagundes\Documents\RAD Studio\GrupoDassBrindes\GrupoDassBrindes.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

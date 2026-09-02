@@ -1,0 +1,29 @@
+unit uDMConnection;
+
+interface
+
+uses
+  SysUtils, Classes, WideStrings, DB, SqlExpr, DBXFirebird, FMTBcd, Provider,
+  DBClient;
+
+type
+  TDMConnection = class(TDataModule)
+    SQLConnection: TSQLConnection;
+    QryFuncionario: TSQLQuery;
+    dspFuncionario: TDataSetProvider;
+    cdsFuncionario: TClientDataSet;
+    dsFuncionario: TDataSource;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DMConnection: TDMConnection;
+
+implementation
+
+{$R *.dfm}
+
+end.

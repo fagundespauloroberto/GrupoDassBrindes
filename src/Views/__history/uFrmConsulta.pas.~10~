@@ -1,0 +1,63 @@
+unit uFrmConsulta;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Grids, DBGrids, StdCtrls, ExtCtrls,
+  uFuncionarioController, uDMConnection;
+
+type
+  TFrmConsulta = class(TForm)
+    Panel1: TPanel;
+    Label1: TLabel;
+    CbCampoFiltro: TComboBox;
+    EdtValorFiltro: TEdit;
+    BtnPesquisar: TButton;
+    DBGridFuncionarios: TDBGrid;
+    Panel2: TPanel;
+    BtnNovo: TButton;
+    BtnEditar: TButton;
+    BtnExcluir: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+  private
+    { Private declarations }
+    FController: TFuncionarioController;
+    procedure AtualizarGrid;
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmConsulta: TFrmConsulta;
+
+implementation
+
+{$R *.dfm}
+
+{ TFrmConsulta }
+
+procedure TFrmConsulta.AtualizarGrid;
+begin
+  FController.Listar(CbCampoFiltro.Text, EdtValorFiltro.Text);
+end;
+
+procedure TFrmConsulta.FormCreate(Sender: TObject);
+begin
+  FController := TFuncionarioController.Create;
+end;
+
+procedure TFrmConsulta.FormDestroy(Sender: TObject);
+begin
+  FController.Free;
+end;
+
+procedure TFrmConsulta.FormShow(Sender: TObject);
+begin
+  AtualizarGrid;
+end;
+
+end.

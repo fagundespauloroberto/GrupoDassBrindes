@@ -1,0 +1,25 @@
+object DMConnection: TDMConnection
+  OldCreateOrder = False
+  Height = 550
+  Width = 630
+  object SQLConnection: TSQLConnection
+    DriverName = 'Firebird'
+    GetDriverFunc = 'getSQLDriverINTERBASE'
+    LibraryName = 'dbxfb.dll'
+    VendorLib = 'fbclient.dll'
+    Left = 80
+    Top = 96
+  end
+  object QryFuncionario: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = SQLConnection
+    Left = 104
+    Top = 176
+  end
+  object dspFuncionario: TDataSetProvider
+    DataSet = QryFuncionario
+    Left = 152
+    Top = 256
+  end
+end

@@ -1,0 +1,98 @@
+unit uFuncionarioController;
+
+interface
+
+uses
+  SysUtils, uFuncionarioModel, uDMConnection;
+
+type
+  TFuncionarioController = class
+  public
+    function Salvar(AFuncionario: TFuncionario; var AErro: string): Boolean;
+    function Excluir(const AID: Integer; var AErro: string): Boolean;
+    procedure Listar(const ACampoFiltro, AValorFiltro: string);
+  end;
+
+implementation
+
+function TFuncionarioController.Salvar(AFuncionario: TFuncionario; var AErro: string): Boolean;
+begin
+  Result := False;
+  try
+    if AFuncionario.ID = 0 then
+    begin
+      DMConnection.QryFuncionario.Close;
+      DMConnection.QryFuncionario.SQL.Text :=
+        'INSERT INTO FUNCIONARIO (CPF, NOME, EMAIL, TAMANHO_CAMISETA, TAMANHO_CALCADO) ' +
+        'VALUES (:CPF, :NOME, :EMAIL, :TAMANHO_CAMISETA, :TAMANHO_CALCADO)';
+    end
+    else
+    begin
+      DMConnection.QryFuncionario.Close;
+      DMConnection.QryFuncionario.SQL.Text :=
+        'UPDATE FUNCIONARIO SET CPF = :CPF, NOME = :NOME, EMAIL = :EMAIL, ' +
+        'TAMANHO_CAMISETA = :TAMANHO_CAMISETA, TAMANHO_CALCADO = :TAMANHO_CALCADO ' +
+        'WHERE ID = :ID';
+      DMConnection.QryFuncionario.ParamByName('ID').AsInteger := AFuncionario.ID;
+    end;
+
+    DMConnection.QryFuncionario.ParamByName('CPF').AsString := AFuncionario.CPF;
+    DMConnection.QryFuncionario.ParamByName('NOME').AsString := AFuncionario.Nome;
+    DMConnection.QryFuncionario.ParamByName('EMAIL').AsString := AFuncionario.Email;
+    DMConnection.QryFuncionario.ParamByName('TAMANHO_CAMISETA').AsString := AFuncionario.TamanhoCamiseta;
+    DMConnection.QryFuncionario.ParamByName('TAMANHO_CALCADO').AsInteger := AFuncionario.TamanhoCalcado;
+
+    DMConnection.QryFuncionario.ExecSQL();
+    Result := True;
+  except
+    on E: Exception do
+    begin
+      AErro := 'Erro ao gravar no banco: ' + E.Message;
+      Result := False;
+    end;
+  end;
+end;
+
+function TFuncionarioController.Excluir(const AID: Integer; var AErro: string): Boolean;
+begin
+  Result := False;
+  try
+    DMConnection.QryFuncionario.Close;
+    DMConnection.QryFuncionario.SQL.Text := 'DELETE FROM FUNCIONARIO WHERE ID = :ID';
+    DMConnection.QryFuncionario.ParamByName('ID').AsInteger := AID;
+    DMConnection.QryFuncionario.ExecSQL();
+    Result := True;
+  except
+    on E: Exception do
+    begin
+      AErro := 'Erro ao excluir registro: ' + E.Message;
+      Result := False;
+    end;
+  end;
+end;
+
+procedure TFuncionarioController.Listar(const ACampoFiltro, AValorFiltro: string);
+begin
+  DMConnection.cdsFuncionario.Close;
+  DMConnection.QryFuncionario.Close;
+  DMConnection.QryFuncionario.SQL.Text := 'SELECT ID, CPF, NOME, EMAIL, TAMANHO_CAMISETA, TAMANHO_CALCADO FROM FUNCIONARIO WHERE 1=1';
+
+  if Trim(AValorFiltro) <> '' then
+  begin
+    if ACampoFiltro = 'CPF' then
+      DMConnection.QryFuncionario.SQL.Add('AND CPF LIKE ' + QuotedStr('%' + AValorFiltro + '%'))
+    else if ACampoFiltro = 'Nome' then
+      DMConnection.QryFuncionario.SQL.Add('AND LOWER(NOME) LIKE ' + QuotedStr('%' + LowerCase(AValorFiltro) + '%'))
+    else if ACampoFiltro = 'E-mail' then
+      DMConnection.QryFuncionario.SQL.Add('AND LOWER(EMAIL) LIKE ' + QuotedStr('%' + LowerCase(AValorFiltro) + '%'))
+    else if ACampoFiltro = 'Tamanho Camiseta' then
+      DMConnection.QryFuncionario.SQL.Add('AND TAMANHO_CAMISETA = ' + QuotedStr(AValorFiltro))
+    else if ACampoFiltro = 'Tamanho Calçado' then
+      DMConnection.QryFuncionario.SQL.Add('AND TAMANHO_CALCADO = ' + AValorFiltro);
+  end;
+
+  DMConnection.QryFuncionario.SQL.Add('ORDER BY NOME ASC');
+  DMConnection.cdsFuncionario.Open;
+end;
+
+end.

@@ -1,0 +1,78 @@
+object FrmConsulta: TFrmConsulta
+  Left = 0
+  Top = 0
+  Caption = 'Grupo Dass - Gerenciamento de Brindes (Funcion'#225'rios)'
+  ClientHeight = 289
+  ClientWidth = 554
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 554
+    Height = 65
+    Align = alTop
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 16
+      Top = 26
+      Width = 51
+      Height = 13
+      Caption = 'Filtrar por:'
+    end
+    object CbCampoFiltro: TComboBox
+      Left = 73
+      Top = 23
+      Width = 145
+      Height = 21
+      Style = csDropDownList
+      ItemIndex = 0
+      TabOrder = 0
+      Text = 'Todos'
+      Items.Strings = (
+        'Todos'
+        'CPF'
+        'Nome'
+        'E-mail'
+        'Tamanho Camiseta'
+        'Tamanho Cal'#231'ado')
+    end
+    object EdtValorFiltro: TEdit
+      Left = 224
+      Top = 23
+      Width = 121
+      Height = 21
+      TabOrder = 1
+      Text = 'EdtValorFiltro'
+    end
+    object BtnPesquisar: TButton
+      Left = 351
+      Top = 21
+      Width = 75
+      Height = 25
+      Caption = 'Pesquisar'
+      TabOrder = 2
+    end
+  end
+  object DBGridFuncionarios: TDBGrid
+    Left = 0
+    Top = 65
+    Width = 554
+    Height = 224
+    Align = alClient
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+  end
+end
