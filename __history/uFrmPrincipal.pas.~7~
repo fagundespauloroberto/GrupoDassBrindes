@@ -15,8 +15,6 @@ type
     MenuSobre: TMenuItem;
     MenuSair: TMenuItem;
     ActionList1: TActionList;
-    StatusBar1: TStatusBar;
-    N1: TMenuItem;
     procedure MenuFuncionariosClick(Sender: TObject);
     procedure MenuSairClick(Sender: TObject);
     procedure MenuSobreClick(Sender: TObject);

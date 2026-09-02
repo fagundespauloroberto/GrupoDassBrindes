@@ -28,13 +28,16 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure BtnSalvarClick(Sender: TObject);
+    procedure BtnCancelarClick(Sender: TObject);
+    procedure CarregarParaEdicao(const AID: Integer);
+
   private
     { Private declarations }
     FController: TFuncionarioController;
     function ValidarCampos: Boolean;
   public
     { Public declarations }
-    procedure CarregarDadosParaEdicao(AFuncionarioID: Integer);
+    procedure CarregarDadosParaEdicao;
     procedure LimparCampos;
   end;
 
@@ -46,6 +49,11 @@ implementation
 uses uValidacoes;
 
 {$R *.dfm}
+
+procedure TFrmCadastro.BtnCancelarClick(Sender: TObject);
+begin
+  Close;
+end;
 
 procedure TFrmCadastro.BtnSalvarClick(Sender: TObject);
 var
@@ -93,6 +101,33 @@ begin
   end;
 end;
 
+procedure TFrmCadastro.CarregarParaEdicao;
+var
+  IdxCamiseta: Integer;
+begin
+  LimparCampos;
+
+  if not DMConnection.cdsFuncionario.IsEmpty then
+  begin
+    EdtID.Text := DMConnection.cdsFuncionario.FieldByName('ID').AsString;
+    EdtCPF.Text := DMConnection.cdsFuncionario.FieldByName('CPF').AsString;
+    EdtNome.Text := DMConnection.cdsFuncionario.FieldByName('NOME').AsString;
+    EdtEmail.Text := DMConnection.cdsFuncionario.FieldByName('EMAIL').AsString;
+
+    // Busca o índice da camiseta com segurança
+    IdxCamiseta := CbTamanhoCamiseta.Items.IndexOf(
+      DMConnection.cdsFuncionario.FieldByName('TAMANHO_CAMISETA').AsString
+    );
+
+    if IdxCamiseta >= 0 then
+      CbTamanhoCamiseta.ItemIndex := IdxCamiseta
+    else
+      CbTamanhoCamiseta.ItemIndex := -1;
+
+    EdtTamanhoCalcado.Text := DMConnection.cdsFuncionario.FieldByName('TAMANHO_CALCADO').AsString;
+  end;
+end;
+
 procedure TFrmCadastro.FormCreate(Sender: TObject);
 begin
   FController := TFuncionarioController.Create;
@@ -120,10 +155,10 @@ var
 begin
   Result := False;
 
-  //Validação de CPF
-  if Length(Trim(EdtCPF.Text)) <> 11 then
+  // Validação Completa de CPF (Com cálculo de Digitos Verificadores)
+  if not ValidarCPF(EdtCPF.Text) then
   begin
-    MessageDlg('Informe um CPF válido com exatamente 11 dígitos numéricos.', mtWarning, [mbOK], 0);
+    MessageDlg('O CPF informado é inválido. Por favor, verifique os dígitos digitados.', mtWarning, [mbOK], 0);
     EdtCPF.SetFocus;
     Exit;
   end;

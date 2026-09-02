@@ -2,8 +2,8 @@ object FrmConsulta: TFrmConsulta
   Left = 0
   Top = 0
   Caption = 'Grupo Dass - Gerenciamento de Brindes (Funcion'#225'rios)'
-  ClientHeight = 747
-  ClientWidth = 958
+  ClientHeight = 387
+  ClientWidth = 554
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,8 +17,8 @@ object FrmConsulta: TFrmConsulta
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 958
-    Height = 57
+    Width = 554
+    Height = 65
     Align = alTop
     TabOrder = 0
     object Label1: TLabel
@@ -48,14 +48,15 @@ object FrmConsulta: TFrmConsulta
     object EdtValorFiltro: TEdit
       Left = 224
       Top = 23
-      Width = 257
+      Width = 121
       Height = 21
       TabOrder = 1
+      Text = 'EdtValorFiltro'
     end
     object BtnPesquisar: TButton
-      Left = 485
+      Left = 351
       Top = 21
-      Width = 63
+      Width = 75
       Height = 25
       Caption = 'Pesquisar'
       TabOrder = 2
@@ -64,9 +65,9 @@ object FrmConsulta: TFrmConsulta
   end
   object DBGridFuncionarios: TDBGrid
     Left = 0
-    Top = 57
-    Width = 958
-    Height = 640
+    Top = 65
+    Width = 554
+    Height = 272
     Align = alClient
     DataSource = DMConnection.dsFuncionario
     TabOrder = 1
@@ -75,17 +76,15 @@ object FrmConsulta: TFrmConsulta
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
-    OnDblClick = DBGridFuncionariosDblClick
   end
   object Panel2: TPanel
     Left = 0
-    Top = 697
-    Width = 958
+    Top = 337
+    Width = 554
     Height = 50
     Align = alBottom
     TabOrder = 2
     ExplicitTop = 346
-    ExplicitWidth = 554
     object BtnNovo: TButton
       Left = 32
       Top = 16
@@ -102,7 +101,6 @@ object FrmConsulta: TFrmConsulta
       Height = 25
       Caption = '&Editar'
       TabOrder = 1
-      OnClick = BtnEditarClick
     end
     object BtnExcluir: TButton
       Left = 195

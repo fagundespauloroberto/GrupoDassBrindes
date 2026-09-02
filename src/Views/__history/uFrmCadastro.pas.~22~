@@ -28,12 +28,18 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure BtnSalvarClick(Sender: TObject);
+    procedure BtnCancelarClick(Sender: TObject);
+    procedure CarregarParaEdicao(const AID: Integer);
+
   private
     { Private declarations }
     FController: TFuncionarioController;
     function ValidarCampos: Boolean;
+    procedure CarregarDadosParaEdicao;
   public
     { Public declarations }
+    procedure CarregarDadosParaEdicaoParametros(AFuncionarioID: Integer);
+    procedure LimparCampos;
   end;
 
 var
@@ -41,7 +47,14 @@ var
 
 implementation
 
+uses uValidacoes;
+
 {$R *.dfm}
+
+procedure TFrmCadastro.BtnCancelarClick(Sender: TObject);
+begin
+  Close;
+end;
 
 procedure TFrmCadastro.BtnSalvarClick(Sender: TObject);
 var
@@ -74,6 +87,48 @@ begin
   end;
 end;
 
+procedure TFrmCadastro.CarregarDadosParaEdicaoParametros(AFuncionarioID: Integer);
+begin
+  if DMConnection.cdsFuncionario.Locate('ID', AFuncionarioID, []) then
+  begin
+    EdtID.Text := DMConnection.cdsFuncionario.FieldByName('ID').AsString;
+    EdtCPF.Text := DMConnection.cdsFuncionario.FieldByName('CPF').AsString;
+    EdtNome.Text := DMConnection.cdsFuncionario.FieldByName('NOME').AsString;
+    EdtEmail.Text := DMConnection.cdsFuncionario.FieldByName('EMAIL').AsString;
+    CbTamanhoCamiseta.ItemIndex := CbTamanhoCamiseta.Items.IndexOf(
+      DMConnection.cdsFuncionario.FieldByName('TAMANHO_CAMISETA').AsString
+    );
+    EdtTamanhoCalcado.Text := DMConnection.cdsFuncionario.FieldByName('TAMANHO_CALCADO').AsString;
+  end;
+end;
+
+procedure TFrmCadastro.CarregarParaEdicao;
+var
+  IdxCamiseta: Integer;
+begin
+  LimparCampos;
+
+  if not DMConnection.cdsFuncionario.IsEmpty then
+  begin
+    EdtID.Text := DMConnection.cdsFuncionario.FieldByName('ID').AsString;
+    EdtCPF.Text := DMConnection.cdsFuncionario.FieldByName('CPF').AsString;
+    EdtNome.Text := DMConnection.cdsFuncionario.FieldByName('NOME').AsString;
+    EdtEmail.Text := DMConnection.cdsFuncionario.FieldByName('EMAIL').AsString;
+
+    // Busca o índice da camiseta com segurança
+    IdxCamiseta := CbTamanhoCamiseta.Items.IndexOf(
+      DMConnection.cdsFuncionario.FieldByName('TAMANHO_CAMISETA').AsString
+    );
+
+    if IdxCamiseta >= 0 then
+      CbTamanhoCamiseta.ItemIndex := IdxCamiseta
+    else
+      CbTamanhoCamiseta.ItemIndex := -1;
+
+    EdtTamanhoCalcado.Text := DMConnection.cdsFuncionario.FieldByName('TAMANHO_CALCADO').AsString;
+  end;
+end;
+
 procedure TFrmCadastro.FormCreate(Sender: TObject);
 begin
   FController := TFuncionarioController.Create;
@@ -85,16 +140,26 @@ begin
   FController.Free;
 end;
 
+procedure TFrmCadastro.LimparCampos;
+begin
+  EdtID.Text := '0';
+  EdtCPF.Clear;
+  EdtNome.Clear;
+  EdtEmail.Clear;
+  CbTamanhoCamiseta.ItemIndex := -1;
+  EdtTamanhoCalcado.Clear;
+end;
+
 function TFrmCadastro.ValidarCampos: Boolean;
 var
   Calcado: Integer;
 begin
   Result := False;
 
-  //Validação de CPF
-  if Length(Trim(EdtCPF.Text)) <> 11 then
+  // Validação Completa de CPF (Com cálculo de Digitos Verificadores)
+  if not ValidarCPF(EdtCPF.Text) then
   begin
-    MessageDlg('Informe um CPF válido com exatamente 11 dígitos numéricos.', mtWarning, [mbOK], 0);
+    MessageDlg('O CPF informado é inválido. Por favor, verifique os dígitos digitados.', mtWarning, [mbOK], 0);
     EdtCPF.SetFocus;
     Exit;
   end;

@@ -54,28 +54,6 @@ begin
   end;
 end;
 
-function TFuncionarioController.BuscarPorID(const AID: Integer): TFuncionario;
-begin
-  Result := nil;
-  DMConnection.cdsFuncionario.Close;
-  DMConnection.QryFuncionario.Close;
-  DMConnection.QryFuncionario.SQL.Text := 'SELECT ID, CPF, NOME, EMAIL, TAMANHO_CAMISETA, TAMANHO_CALCADO ' +
-                                         'FROM FUNCIONARIO WHERE ID = :ID';
-  DMConnection.QryFuncionario.ParamByName('ID').AsInteger := AID;
-  DMConnection.cdsFuncionario.Open;
-
-  if not DMConnection.cdsFuncionario.IsEmpty then
-  begin
-    Result := TFuncionario.Create;
-    Result.ID := DMConnection.cdsFuncionario.FieldByName('ID').AsInteger;
-    Result.CPF := DMConnection.cdsFuncionario.FieldByName('CPF').AsString;
-    Result.Nome := DMConnection.cdsFuncionario.FieldByName('NOME').AsString;
-    Result.Email := DMConnection.cdsFuncionario.FieldByName('EMAIL').AsString;
-    Result.TamanhoCamiseta := DMConnection.cdsFuncionario.FieldByName('TAMANHO_CAMISETA').AsString;
-    Result.TamanhoCalcado := DMConnection.cdsFuncionario.FieldByName('TAMANHO_CALCADO').AsInteger;
-  end;
-end;
-
 function TFuncionarioController.Excluir(const AID: Integer; var AErro: string): Boolean;
 begin
   Result := False;

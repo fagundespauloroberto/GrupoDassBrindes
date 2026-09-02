@@ -11,7 +11,6 @@ type
     function Salvar(AFuncionario: TFuncionario; var AErro: string): Boolean;
     function Excluir(const AID: Integer; var AErro: string): Boolean;
     procedure Listar(const ACampoFiltro, AValorFiltro: string);
-    function BuscarPorID(const AID: Integer): TFuncionario;
   end;
 
 implementation
@@ -51,28 +50,6 @@ begin
       AErro := 'Erro ao gravar no banco: ' + E.Message;
       Result := False;
     end;
-  end;
-end;
-
-function TFuncionarioController.BuscarPorID(const AID: Integer): TFuncionario;
-begin
-  Result := nil;
-  DMConnection.cdsFuncionario.Close;
-  DMConnection.QryFuncionario.Close;
-  DMConnection.QryFuncionario.SQL.Text := 'SELECT ID, CPF, NOME, EMAIL, TAMANHO_CAMISETA, TAMANHO_CALCADO ' +
-                                         'FROM FUNCIONARIO WHERE ID = :ID';
-  DMConnection.QryFuncionario.ParamByName('ID').AsInteger := AID;
-  DMConnection.cdsFuncionario.Open;
-
-  if not DMConnection.cdsFuncionario.IsEmpty then
-  begin
-    Result := TFuncionario.Create;
-    Result.ID := DMConnection.cdsFuncionario.FieldByName('ID').AsInteger;
-    Result.CPF := DMConnection.cdsFuncionario.FieldByName('CPF').AsString;
-    Result.Nome := DMConnection.cdsFuncionario.FieldByName('NOME').AsString;
-    Result.Email := DMConnection.cdsFuncionario.FieldByName('EMAIL').AsString;
-    Result.TamanhoCamiseta := DMConnection.cdsFuncionario.FieldByName('TAMANHO_CAMISETA').AsString;
-    Result.TamanhoCalcado := DMConnection.cdsFuncionario.FieldByName('TAMANHO_CALCADO').AsInteger;
   end;
 end;
 

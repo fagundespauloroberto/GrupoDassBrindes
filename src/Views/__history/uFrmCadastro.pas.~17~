@@ -29,7 +29,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure BtnSalvarClick(Sender: TObject);
     procedure BtnCancelarClick(Sender: TObject);
-    procedure CarregarDadosParaEdicao;
+    procedure CarregarParaEdicao(const AID: Integer);
 
   private
     { Private declarations }
@@ -37,7 +37,7 @@ type
     function ValidarCampos: Boolean;
   public
     { Public declarations }
-    procedure CarregarDadosParaEdicaoParametros(AFuncionarioID: Integer);
+    procedure CarregarDadosParaEdicao(AFuncionarioID: Integer);
     procedure LimparCampos;
   end;
 
@@ -86,7 +86,22 @@ begin
   end;
 end;
 
-procedure TFrmCadastro.CarregarDadosParaEdicao;
+procedure TFrmCadastro.CarregarDadosParaEdicao(AFuncionarioID: Integer);
+begin
+  if DMConnection.cdsFuncionario.Locate('ID', AFuncionarioID, []) then
+  begin
+    EdtID.Text := DMConnection.cdsFuncionario.FieldByName('ID').AsString;
+    EdtCPF.Text := DMConnection.cdsFuncionario.FieldByName('CPF').AsString;
+    EdtNome.Text := DMConnection.cdsFuncionario.FieldByName('NOME').AsString;
+    EdtEmail.Text := DMConnection.cdsFuncionario.FieldByName('EMAIL').AsString;
+    CbTamanhoCamiseta.ItemIndex := CbTamanhoCamiseta.Items.IndexOf(
+      DMConnection.cdsFuncionario.FieldByName('TAMANHO_CAMISETA').AsString
+    );
+    EdtTamanhoCalcado.Text := DMConnection.cdsFuncionario.FieldByName('TAMANHO_CALCADO').AsString;
+  end;
+end;
+
+procedure TFrmCadastro.CarregarParaEdicao(const AID: Integer);
 var
   IdxCamiseta: Integer;
 begin
@@ -109,21 +124,6 @@ begin
     else
       CbTamanhoCamiseta.ItemIndex := -1;
 
-    EdtTamanhoCalcado.Text := DMConnection.cdsFuncionario.FieldByName('TAMANHO_CALCADO').AsString;
-  end;
-end;
-
-procedure TFrmCadastro.CarregarDadosParaEdicaoParametros(AFuncionarioID: Integer);
-begin
-  if DMConnection.cdsFuncionario.Locate('ID', AFuncionarioID, []) then
-  begin
-    EdtID.Text := DMConnection.cdsFuncionario.FieldByName('ID').AsString;
-    EdtCPF.Text := DMConnection.cdsFuncionario.FieldByName('CPF').AsString;
-    EdtNome.Text := DMConnection.cdsFuncionario.FieldByName('NOME').AsString;
-    EdtEmail.Text := DMConnection.cdsFuncionario.FieldByName('EMAIL').AsString;
-    CbTamanhoCamiseta.ItemIndex := CbTamanhoCamiseta.Items.IndexOf(
-      DMConnection.cdsFuncionario.FieldByName('TAMANHO_CAMISETA').AsString
-    );
     EdtTamanhoCalcado.Text := DMConnection.cdsFuncionario.FieldByName('TAMANHO_CALCADO').AsString;
   end;
 end;

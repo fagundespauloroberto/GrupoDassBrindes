@@ -146,7 +146,6 @@ object FrmCadastro: TFrmCadastro
       Height = 25
       Caption = 'Cancelar'
       TabOrder = 1
-      OnClick = BtnCancelarClick
     end
   end
 end

@@ -25,8 +25,6 @@ type
     procedure BtnExcluirClick(Sender: TObject);
     procedure BtnPesquisarClick(Sender: TObject);
     procedure BtnNovoClick(Sender: TObject);
-    procedure BtnEditarClick(Sender: TObject);
-    procedure DBGridFuncionariosDblClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -41,7 +39,7 @@ var
 
 implementation
 
-uses
+  uses
     uFrmCadastro;
 {$R *.dfm}
 
@@ -50,31 +48,6 @@ uses
 procedure TFrmConsulta.AtualizarGrid;
 begin
   FController.Listar(CbCampoFiltro.Text, EdtValorFiltro.Text);
-end;
-
-procedure TFrmConsulta.BtnEditarClick(Sender: TObject);
-var
-  FrmCadastro: TFrmCadastro;
-begin
-  // 1. Verifica se existe registro ativo na grade
-  if DMConnection.cdsFuncionario.IsEmpty then
-  begin
-    MessageDlg('Selecione um funcionário na lista para editar.', mtWarning, [mbOK], 0);
-    Exit;
-  end;
-
-  // 2. Instancia a tela e carrega os dados do registro atual
-  FrmCadastro := TFrmCadastro.Create(Self);
-  try
-    FrmCadastro.CarregarDadosParaEdicao; // Carrega a linha onde o ponteiro do DBGrid já está!
-
-    if FrmCadastro.ShowModal = mrOk then
-    begin
-      AtualizarGrid;
-    end;
-  finally
-    FrmCadastro.Free;
-  end;
 end;
 
 procedure TFrmConsulta.BtnExcluirClick(Sender: TObject);
@@ -129,11 +102,6 @@ begin
   AtualizarGrid;
 end;
 
-procedure TFrmConsulta.DBGridFuncionariosDblClick(Sender: TObject);
-begin
-  BtnEditarClick(BtnEditar);
-end;
-
 procedure TFrmConsulta.FormDestroy(Sender: TObject);
 begin
   FController.Free;
@@ -143,7 +111,5 @@ procedure TFrmConsulta.FormShow(Sender: TObject);
 begin
   AtualizarGrid;
 end;
-
-
 
 end.

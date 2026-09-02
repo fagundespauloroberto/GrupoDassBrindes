@@ -13,7 +13,6 @@ object FormPrincipal: TFormPrincipal
   Menu = MainMenu1
   OldCreateOrder = False
   WindowState = wsMaximized
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object StatusBar1: TStatusBar
@@ -28,24 +27,18 @@ object FormPrincipal: TFormPrincipal
     Top = 152
     object Cadastros1: TMenuItem
       Caption = '&Cadastros'
-      object N1: TMenuItem
-        Caption = '-'
-      end
       object MenuFuncionarios: TMenuItem
         Caption = '&Funcion'#225'rios / Brindes'
-        OnClick = MenuFuncionariosClick
       end
     end
     object Ajuda1: TMenuItem
       Caption = '&Ajuda'
       object MenuSobre: TMenuItem
         Caption = '&Sobre'
-        OnClick = MenuSobreClick
       end
     end
     object MenuSair: TMenuItem
       Caption = '&Sair'
-      OnClick = MenuSairClick
     end
   end
   object ActionList1: TActionList

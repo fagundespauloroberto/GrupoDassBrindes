@@ -29,7 +29,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure BtnSalvarClick(Sender: TObject);
     procedure BtnCancelarClick(Sender: TObject);
-    procedure CarregarDadosParaEdicao;
+    procedure CarregarParaEdicao(const AID: Integer);
 
   private
     { Private declarations }
@@ -38,6 +38,7 @@ type
   public
     { Public declarations }
     procedure CarregarDadosParaEdicaoParametros(AFuncionarioID: Integer);
+    procedure CarregarDadosParaEdicao;
     procedure LimparCampos;
   end;
 

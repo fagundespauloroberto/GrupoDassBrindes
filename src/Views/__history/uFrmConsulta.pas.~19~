@@ -66,7 +66,7 @@ begin
   // 2. Instancia a tela e carrega os dados do registro atual
   FrmCadastro := TFrmCadastro.Create(Self);
   try
-    FrmCadastro.CarregarDadosParaEdicao; // Carrega a linha onde o ponteiro do DBGrid já está!
+    FrmCadastro.CarregarParaEdicao; // Carrega a linha onde o ponteiro do DBGrid já está!
 
     if FrmCadastro.ShowModal = mrOk then
     begin

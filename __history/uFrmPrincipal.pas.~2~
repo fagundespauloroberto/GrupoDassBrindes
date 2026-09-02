@@ -1,4 +1,4 @@
-unit uFrmCadastro;
+unit uFrmPrincipal;
 
 interface
 
@@ -7,7 +7,7 @@ uses
   Dialogs;
 
 type
-  TFrmCadastro = class(TForm)
+  TForm3 = class(TForm)
   private
     { Private declarations }
   public
@@ -15,7 +15,7 @@ type
   end;
 
 var
-  FrmCadastro: TFrmCadastro;
+  Form3: TForm3;
 
 implementation
 

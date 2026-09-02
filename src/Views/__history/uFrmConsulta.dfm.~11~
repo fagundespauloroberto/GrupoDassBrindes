@@ -18,9 +18,10 @@ object FrmConsulta: TFrmConsulta
     Left = 0
     Top = 0
     Width = 958
-    Height = 57
+    Height = 65
     Align = alTop
     TabOrder = 0
+    ExplicitWidth = 554
     object Label1: TLabel
       Left = 16
       Top = 26
@@ -48,14 +49,15 @@ object FrmConsulta: TFrmConsulta
     object EdtValorFiltro: TEdit
       Left = 224
       Top = 23
-      Width = 257
+      Width = 121
       Height = 21
       TabOrder = 1
+      Text = 'EdtValorFiltro'
     end
     object BtnPesquisar: TButton
-      Left = 485
+      Left = 351
       Top = 21
-      Width = 63
+      Width = 75
       Height = 25
       Caption = 'Pesquisar'
       TabOrder = 2
@@ -64,9 +66,9 @@ object FrmConsulta: TFrmConsulta
   end
   object DBGridFuncionarios: TDBGrid
     Left = 0
-    Top = 57
+    Top = 65
     Width = 958
-    Height = 640
+    Height = 632
     Align = alClient
     DataSource = DMConnection.dsFuncionario
     TabOrder = 1
@@ -75,7 +77,6 @@ object FrmConsulta: TFrmConsulta
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
-    OnDblClick = DBGridFuncionariosDblClick
   end
   object Panel2: TPanel
     Left = 0
@@ -102,7 +103,6 @@ object FrmConsulta: TFrmConsulta
       Height = 25
       Caption = '&Editar'
       TabOrder = 1
-      OnClick = BtnEditarClick
     end
     object BtnExcluir: TButton
       Left = 195

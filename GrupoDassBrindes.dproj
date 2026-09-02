@@ -44,8 +44,31 @@
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<DCCReference Include="uFrmPrincipal.pas">
-				<Form>Form3</Form>
+				<Form>FormPrincipal</Form>
 			</DCCReference>
+			<DCCReference Include="src\Models\uFuncionarioModel.pas"/>
+			<DCCReference Include="src\Controllers\uFuncionarioController.pas"/>
+			<DCCReference Include="src\uDMConnection.pas">
+				<Form>DMConnection</Form>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="src\Views\uFrmConsulta.pas">
+				<Form>FrmConsulta</Form>
+			</DCCReference>
+			<DCCReference Include="src\Views\uFrmCadastro.pas">
+				<Form>FrmCadastro</Form>
+			</DCCReference>
+			<DCCReference Include="src\Utils\uValidacoes.pas"/>
+			<None Include="ModelSupport_GrupoDassBrindes\default.txaPackage"/>
+			<None Include="ModelSupport_GrupoDassBrindes\default.txvpck"/>
+			<None Include="ModelSupport_GrupoDassBrindes\uFrmPrincipal\default.txvpck"/>
+			<None Include="ModelSupport_GrupoDassBrindes\uFrmCadastro\default.txvpck"/>
+			<None Include="ModelSupport_GrupoDassBrindes\uFuncionarioModel\default.txvpck"/>
+			<None Include="ModelSupport_GrupoDassBrindes\uFrmConsulta\default.txvpck"/>
+			<None Include="ModelSupport_GrupoDassBrindes\uFuncionarioController\default.txvpck"/>
+			<None Include="ModelSupport_GrupoDassBrindes\GrupoDassBrindes\default.txvpck"/>
+			<None Include="ModelSupport_GrupoDassBrindes\uDMConnection\default.txvpck"/>
+			<None Include="ModelSupport_GrupoDassBrindes\uValidacoes\default.txvpck"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -100,6 +123,7 @@
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
 				</Delphi.Personality>
+				<ModelSupport>True</ModelSupport>
 			</BorlandProject>
 			<ProjectFileVersion>12</ProjectFileVersion>
 		</ProjectExtensions>

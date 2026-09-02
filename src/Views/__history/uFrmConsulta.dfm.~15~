@@ -75,7 +75,6 @@ object FrmConsulta: TFrmConsulta
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
-    OnDblClick = DBGridFuncionariosDblClick
   end
   object Panel2: TPanel
     Left = 0

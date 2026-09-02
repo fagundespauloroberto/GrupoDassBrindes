@@ -26,7 +26,6 @@ type
     procedure BtnPesquisarClick(Sender: TObject);
     procedure BtnNovoClick(Sender: TObject);
     procedure BtnEditarClick(Sender: TObject);
-    procedure DBGridFuncionariosDblClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -41,7 +40,7 @@ var
 
 implementation
 
-uses
+  uses
     uFrmCadastro;
 {$R *.dfm}
 
@@ -55,21 +54,27 @@ end;
 procedure TFrmConsulta.BtnEditarClick(Sender: TObject);
 var
   FrmCadastro: TFrmCadastro;
+  IDSelecionado: Integer;
 begin
-  // 1. Verifica se existe registro ativo na grade
-  if DMConnection.cdsFuncionario.IsEmpty then
+  // 1. Valida se o DataSet contem registros e se ha uma linha selecionada
+  if (DMConnection.cdsFuncionario.IsEmpty) or (DMConnection.cdsFuncionario.FieldByName('ID').AsInteger <= 0) then
   begin
     MessageDlg('Selecione um funcionário na lista para editar.', mtWarning, [mbOK], 0);
     Exit;
   end;
 
-  // 2. Instancia a tela e carrega os dados do registro atual
+  // 2. Obtem o ID do registro selecionado no DBGrid
+  IDSelecionado := DMConnection.cdsFuncionario.FieldByName('ID').AsInteger;
+
+  // 3. Instancia a tela de cadastro e carrega os dados
   FrmCadastro := TFrmCadastro.Create(Self);
   try
-    FrmCadastro.CarregarDadosParaEdicao; // Carrega a linha onde o ponteiro do DBGrid já está!
+    FrmCadastro.CarregarParaEdicao(IDSelecionado);
 
+    // 4. Exibe a tela de forma Modal
     if FrmCadastro.ShowModal = mrOk then
     begin
+      // 5. Se salvou com sucesso, recarrega a grid para refletir as alteracoes
       AtualizarGrid;
     end;
   finally
@@ -129,11 +134,6 @@ begin
   AtualizarGrid;
 end;
 
-procedure TFrmConsulta.DBGridFuncionariosDblClick(Sender: TObject);
-begin
-  BtnEditarClick(BtnEditar);
-end;
-
 procedure TFrmConsulta.FormDestroy(Sender: TObject);
 begin
   FController.Free;
@@ -143,7 +143,5 @@ procedure TFrmConsulta.FormShow(Sender: TObject);
 begin
   AtualizarGrid;
 end;
-
-
 
 end.
