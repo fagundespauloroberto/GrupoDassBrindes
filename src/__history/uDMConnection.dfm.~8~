@@ -1,0 +1,42 @@
+object DMConnection: TDMConnection
+  OldCreateOrder = False
+  Height = 550
+  Width = 630
+  object SQLConnection: TSQLConnection
+    DriverName = 'Firebird'
+    GetDriverFunc = 'getSQLDriverINTERBASE'
+    LibraryName = 'dbxfb.dll'
+    LoginPrompt = False
+    Params.Strings = (
+      
+        'Database=C:\Users\Fagundes\Documents\DataBase firebird\dass_brin' +
+        'des.fdb')
+    VendorLib = 'fbclient.dll'
+    Left = 80
+    Top = 96
+  end
+  object QryFuncionario: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = SQLConnection
+    Left = 104
+    Top = 168
+  end
+  object dspFuncionario: TDataSetProvider
+    DataSet = QryFuncionario
+    Left = 136
+    Top = 240
+  end
+  object cdsFuncionario: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspFuncionario'
+    Left = 176
+    Top = 320
+  end
+  object dsFuncionario: TDataSource
+    DataSet = cdsFuncionario
+    Left = 208
+    Top = 408
+  end
+end
