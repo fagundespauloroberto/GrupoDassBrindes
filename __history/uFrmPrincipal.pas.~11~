@@ -15,6 +15,8 @@ type
     MenuSobre: TMenuItem;
     MenuSair: TMenuItem;
     ActionList1: TActionList;
+    StatusBar1: TStatusBar;
+    N1: TMenuItem;
     procedure MenuFuncionariosClick(Sender: TObject);
     procedure MenuSairClick(Sender: TObject);
     procedure MenuSobreClick(Sender: TObject);
@@ -30,13 +32,22 @@ var
 
 implementation
 
+uses
+  uFrmConsulta;
+
 {$R *.dfm}
 
 { TFormPrincipal }
 
 procedure TFormPrincipal.FormShow(Sender: TObject);
 begin
-  // Atualiza a barra de status com informacoes do sistema
+
+  while StatusBar1.Panels.Count < 2 do
+    StatusBar1.Panels.Add;
+
+  StatusBar1.Panels[0].Width := 250;
+  StatusBar1.Panels[1].Width := 300;
+
   StatusBar1.Panels[0].Text := ' Sistema Dass Brindes v1.0';
   StatusBar1.Panels[1].Text := ' Status: Conectado ao Banco Firebird';
 end;

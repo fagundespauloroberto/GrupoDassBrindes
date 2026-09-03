@@ -27,7 +27,6 @@ type
     procedure BtnNovoClick(Sender: TObject);
     procedure BtnEditarClick(Sender: TObject);
     procedure DBGridFuncionariosDblClick(Sender: TObject);
-    procedure ConfigurarCabecalhosGrid;
 
   private
     { Private declarations }
@@ -51,31 +50,6 @@ uses
 procedure TFrmConsulta.AtualizarGrid;
 begin
   FController.Listar(CbCampoFiltro.Text, EdtValorFiltro.Text);
-  ConfigurarCabecalhosGrid;
-end;
-
-procedure TFrmConsulta.ConfigurarCabecalhosGrid;
-begin
-  with DMConnection.cdsFuncionario do
-  begin
-    if Active then
-    begin
-      FieldByName('ID').DisplayLabel := 'ID';
-      FieldByName('CPF').DisplayLabel := 'CPF';
-      FieldByName('NOME').DisplayLabel := 'Nome do Colaborador';
-      FieldByName('EMAIL').DisplayLabel := 'E-mail';
-      FieldByName('TAMANHO_CAMISETA').DisplayLabel := 'Camiseta';
-      FieldByName('TAMANHO_CALCADO').DisplayLabel := 'Calçado';
-
-      // Ajuste de largura visual das colunas no DBGrid (em pixels)
-      DBGridFuncionarios.Columns[0].Width := 50;  // ID
-      DBGridFuncionarios.Columns[1].Width := 110; // CPF
-      DBGridFuncionarios.Columns[2].Width := 250; // NOME
-      DBGridFuncionarios.Columns[3].Width := 180; // EMAIL
-      DBGridFuncionarios.Columns[4].Width := 80;  // TAMANHO_CAMISETA
-      DBGridFuncionarios.Columns[5].Width := 80;  // TAMANHO_CALCADO
-    end;
-  end;
 end;
 
 procedure TFrmConsulta.BtnEditarClick(Sender: TObject);

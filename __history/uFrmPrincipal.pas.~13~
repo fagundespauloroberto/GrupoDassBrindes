@@ -34,16 +34,13 @@ var
 implementation
 
 uses
-  uFrmConsulta,
-  uDMConnection;
+  uFrmConsulta;
 
 {$R *.dfm}
 
 { TFormPrincipal }
 
 procedure TFormPrincipal.FormShow(Sender: TObject);
-var
-  ErroConexao: string;
 begin
 
   while StatusBar1.Panels.Count < 2 do
@@ -53,17 +50,7 @@ begin
   StatusBar1.Panels[1].Width := 300;
 
   StatusBar1.Panels[0].Text := ' Sistema Dass Brindes v1.0';
-
-  // Teste dinâmico de conexão com o banco
-  if DMConnection.TestarConexao(ErroConexao) then
-  begin
-    StatusBar1.Panels[1].Text := ' Status: Conectado ao Banco Firebird';
-  end
-  else
-  begin
-    StatusBar1.Panels[1].Text := ' Status: Desconectado - ' + ErroConexao;
-  end;
-
+  StatusBar1.Panels[1].Text := ' Status: Conectado ao Banco Firebird';
 end;
 
 procedure TFormPrincipal.MenuFuncionariosClick(Sender: TObject);

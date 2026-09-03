@@ -17,7 +17,7 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDMConnection, DMConnection);
   Application.CreateForm(TFormPrincipal, FormPrincipal);
-  //Application.CreateForm(TFrmConsulta, FrmConsulta);
-  //Application.CreateForm(TFrmCadastro, FrmCadastro);
+  Application.CreateForm(TFrmConsulta, FrmConsulta);
+  Application.CreateForm(TFrmCadastro, FrmCadastro);
   Application.Run;
 end.

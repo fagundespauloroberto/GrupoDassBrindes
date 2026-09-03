@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ActnList, Menus, ComCtrls, ExtCtrls, jpeg;
+  Dialogs, ActnList, Menus, ComCtrls, ExtCtrls;
 
 type
   TFormPrincipal = class(TForm)
@@ -17,7 +17,6 @@ type
     ActionList1: TActionList;
     StatusBar1: TStatusBar;
     N1: TMenuItem;
-    Image1: TImage;
     procedure MenuFuncionariosClick(Sender: TObject);
     procedure MenuSairClick(Sender: TObject);
     procedure MenuSobreClick(Sender: TObject);
@@ -34,42 +33,24 @@ var
 implementation
 
 uses
-  uFrmConsulta,
-  uDMConnection;
+  uFrmConsulta;
 
 {$R *.dfm}
 
 { TFormPrincipal }
 
 procedure TFormPrincipal.FormShow(Sender: TObject);
-var
-  ErroConexao: string;
 begin
-
-  while StatusBar1.Panels.Count < 2 do
-    StatusBar1.Panels.Add;
-
-  StatusBar1.Panels[0].Width := 250;
-  StatusBar1.Panels[1].Width := 300;
-
+  // Atualiza a barra de status com informacoes do sistema
   StatusBar1.Panels[0].Text := ' Sistema Dass Brindes v1.0';
-
-  // Teste dinâmico de conexão com o banco
-  if DMConnection.TestarConexao(ErroConexao) then
-  begin
-    StatusBar1.Panels[1].Text := ' Status: Conectado ao Banco Firebird';
-  end
-  else
-  begin
-    StatusBar1.Panels[1].Text := ' Status: Desconectado - ' + ErroConexao;
-  end;
-
+  StatusBar1.Panels[1].Text := ' Status: Conectado ao Banco Firebird';
 end;
 
 procedure TFormPrincipal.MenuFuncionariosClick(Sender: TObject);
 var
   FrmConsulta: TFrmConsulta;
 begin
+  // Instancia e abre a tela de consulta de forma controlada
   FrmConsulta := TFrmConsulta.Create(Self);
   try
     FrmConsulta.ShowModal;

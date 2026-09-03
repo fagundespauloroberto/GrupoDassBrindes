@@ -34,8 +34,7 @@ var
 implementation
 
 uses
-  uFrmConsulta,
-  uDMConnection;
+  uFrmConsulta;
 
 {$R *.dfm}
 

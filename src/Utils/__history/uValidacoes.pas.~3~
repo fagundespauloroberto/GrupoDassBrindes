@@ -5,7 +5,9 @@ interface
 uses
   SysUtils;
 
+/// <summary>
 /// Valida se uma string contem um CPF valido com base no calculo de digitos verificadores (Modulo 11).
+/// </summary>
 function ValidarCPF(const ACPF: string): Boolean;
 
 implementation
@@ -17,7 +19,7 @@ var
 begin
   Result := False;
 
-  // Remove caracteres não numéricos caso exista
+  // Remove caracteres não numéricos caso existam
   CPFLimpo := '';
   for I := 1 to Length(ACPF) do
   begin

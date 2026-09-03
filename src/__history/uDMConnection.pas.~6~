@@ -27,24 +27,4 @@ implementation
 
 {$R *.dfm}
 
-{ TDMConnection }
-
-function TDMConnection.TestarConexao(var AErro: string): Boolean;
-begin
-  Result := False;
-  AErro := '';
-  try
-    if not SQLConnection.Connected then
-      SQLConnection.Connected := True;
-
-    Result := SQLConnection.Connected;
-  except
-    on E: Exception do
-    begin
-      AErro := E.Message;
-      Result := False;
-    end;
-  end;
-end;
-
 end.
